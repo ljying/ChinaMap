@@ -5,6 +5,8 @@
 * svg 路径信息与Path转换
 * Canvas绘制path
 * 自定义控件手势处理
+* RxJava 异步任务处理
+* Java8 Lambda 兼容
 
 [APK下载](https://raw.githubusercontent.com/ljying/ChinaMap/master/screenshot/sample.apk)
 

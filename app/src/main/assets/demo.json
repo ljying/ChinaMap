@@ -1,0 +1,65 @@
+{
+  "province": [
+    {
+      "provinceName": "北京",
+      "provinceId": 110000,
+      "number": 443
+    },
+    {
+      "provinceName": "未知",
+      "provinceId": 0,
+      "number": 389
+    },
+    {
+      "provinceName": "湖北",
+      "provinceId": 420000,
+      "number": 301
+    },
+    {
+      "provinceName": "黑龙江",
+      "provinceId": 230000,
+      "number": 180
+    },
+    {
+      "provinceName": "重庆",
+      "provinceId": 500000,
+      "number": 160
+    },
+    {
+      "provinceName": "山西",
+      "provinceId": 140000,
+      "number": 140
+    },
+    {
+      "provinceName": "河北",
+      "provinceId": 130000,
+      "number": 98
+    },
+    {
+      "provinceName": "江苏",
+      "provinceId": 320000,
+      "number": 80
+    },
+    {
+      "provinceName": "广东",
+      "provinceId": 440000,
+      "number": 45
+    },
+    {
+      "provinceName": "西藏",
+      "provinceId": 540000,
+      "number": 60
+    },
+
+    {
+      "provinceName": "新疆",
+      "provinceId": 650000,
+      "number": 600
+    },
+    {
+      "provinceName": "内蒙",
+      "provinceId": 150000,
+      "number": 22
+    }
+  ]
+}

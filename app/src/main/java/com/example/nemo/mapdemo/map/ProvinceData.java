@@ -1,7 +1,8 @@
 package com.example.nemo.mapdemo.map;
 
 /**
- * Description: 演示数据结构
+ * Description: 省份数据实体
+ *
  * @author nemo
  * @version 2.0
  * @since 2016/4/15
@@ -21,6 +22,16 @@ public class ProvinceData implements IProvinceData {
      * 该省内人数
      */
     private int number;
+
+    @Override
+    public int getPersonNumber() {
+        return number;
+    }
+
+    @Override
+    public int getProvinceCode() {
+        return provinceId;
+    }
 
     public int getProvinceId() {
         return provinceId;
@@ -47,12 +58,11 @@ public class ProvinceData implements IProvinceData {
     }
 
     @Override
-    public int getPersonNumber() {
-        return number;
-    }
-
-    @Override
-    public int getProvinceCode() {
-        return provinceId;
+    public String toString() {
+        return "ProvinceData{" +
+                "provinceId=" + provinceId +
+                ", provinceName='" + provinceName + '\'' +
+                ", number=" + number +
+                '}';
     }
 }

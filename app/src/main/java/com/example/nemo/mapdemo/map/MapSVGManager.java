@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Description:  svg管理
+ *
  * @author nemo
  * @version 2.0
  * @since 16/4/12
@@ -56,6 +57,11 @@ class MapSVGManager {
         return instance;
     }
 
+    /**
+     * 异步获取ProvincePath信息并设置回掉
+     *
+     * @param callback 封装完成回掉
+     */
     void getProvincePathListAsync(final Callback callback) {
         if (mProvincePathList == null) {
             new Thread(() -> {
@@ -77,6 +83,9 @@ class MapSVGManager {
 
     }
 
+    /**
+     * 初始化  xml解析svg文件封装ProvincePath信息
+     */
     private void init() {
         new Thread(() -> {
             try {

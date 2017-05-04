@@ -5,8 +5,13 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+
+/**
+ * path 路径解析兼容类（兼容标准svg）
+ */
 public class PathParser {
-    private static final String LOGTAG = "PathParser";
+
+    private static final String LOG_TAG = "PathParser";
 
 // Copy from Arrays.copyOfRange() which is only available from API level 9.
 
@@ -601,12 +606,12 @@ public class PathParser {
             /* Solve for intersecting unit circles */
             double dsq = dx * dx + dy * dy;
             if (dsq == 0.0) {
-                Log.w(LOGTAG, " Points are coincident");
+                Log.w(LOG_TAG, " Points are coincident");
                 return; /* Points are coincident */
             }
             double disc = 1.0 / dsq - 1.0 / 4.0;
             if (disc < 0.0) {
-                Log.w(LOGTAG, "Points are too far apart " + dsq);
+                Log.w(LOG_TAG, "Points are too far apart " + dsq);
                 float adjust = (float) (Math.sqrt(dsq) / 1.99999);
                 drawArc(p, x0, y0, x1, y1, a * adjust,
                         b * adjust, theta, isMoreThanHalf, isPositiveArc);

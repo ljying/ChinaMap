@@ -2,6 +2,7 @@ package com.example.nemo.mapdemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.nemo.mapdemo.map.ChinaMapView;
@@ -32,16 +33,13 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
 
         mapView = (ChinaMapView) findViewById(R.id.view_map);
-
-        findViewById(R.id.bt_load_data).setOnClickListener(v -> loadMapData());
-        findViewById(R.id.bt_clear_data).setOnClickListener(v -> clearMapData());
     }
 
 
     /**
      * 加载预设数据
      */
-    private void loadMapData() {
+    public void loadMapData(View view) {
 
         parseDemoData()
                 .subscribeOn(Schedulers.io())
@@ -99,9 +97,8 @@ public class MapActivity extends AppCompatActivity {
     /**
      * 清除预设数据
      */
-    private void clearMapData() {
+    public void clearMapData(View view) {
         mapView.setData(null);
     }
-
 
 }

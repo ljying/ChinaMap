@@ -17,7 +17,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 import com.example.nemo.mapdemo.R;
 
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ import java.util.Map;
 
 /**
  * Description:  mapview
+ *
  * @author nemo
  * @version 2.0
  * @since 16/4/12
@@ -76,6 +76,12 @@ public class ChinaMapView extends View {
         init(attrs, defStyle);
     }
 
+    /**
+     * 初始化加载地图数据并设置相关手势监听
+     *
+     * @param attrs    属性
+     * @param defStyle 默认属性
+     */
     private void init(AttributeSet attrs, int defStyle) {
         paint = new Paint();
         paint.setAntiAlias(true);
@@ -114,6 +120,7 @@ public class ChinaMapView extends View {
         bottomPadding = getResources().getDimensionPixelSize(R.dimen.map_bottom_padding);
 
         if (!isInEditMode()) {
+            //获取地图svg封装信息
             MapSVGManager.getInstance(getContext()).getProvincePathListAsync((provincePathList, size) -> {
 
                 List<ProvinceItem> list = new ArrayList<>();
@@ -130,6 +137,8 @@ public class ChinaMapView extends View {
                 }
                 mapSize = size;
                 itemList = list;
+
+                //刷新布局
                 requestLayout();
                 postInvalidate();
             });
@@ -190,6 +199,13 @@ public class ChinaMapView extends View {
         return gestureDetectorCompat.onTouchEvent(event);
     }
 
+    /**
+     * 处理手势触摸
+     *
+     * @param x 当前x
+     * @param y 当前y
+     * @return 是否触摸到区域部分
+     */
     private boolean handlerTouch(int x, int y) {
         ProvinceItem provinceItem = null;
         final List<ProvinceItem> list = itemList;
@@ -210,16 +226,26 @@ public class ChinaMapView extends View {
         return provinceItem != null;
     }
 
-
+    /**
+     * 设置显示数据
+     *
+     * @param list 加载数据集合
+     */
     public <T extends IProvinceData> void setData(Collection<T> list) {
         if (itemList != null) {
+            //重新设置绘制区域信息
             setMapColor(itemList, list);
             postInvalidate();
         }
         dataList = list;
     }
 
-
+    /**
+     * 设置地图区域颜色，根据所占比例来绘制区域颜色深浅即初始化区域绘制信息
+     *
+     * @param itemList 省份区域集合
+     * @param dataList 实际解析数据集合
+     */
     private void setMapColor(List<ProvinceItem> itemList, Collection<? extends IProvinceData> dataList) {
         int totalNumber = 0;
         Map<Integer, Integer> map = new HashMap<>();
@@ -304,19 +330,45 @@ public class ChinaMapView extends View {
         }
     }
 
+    /**
+     * 地图绘制省份区域信息
+     */
     private static class ProvinceItem {
-
+        /**
+         * 区域路径
+         */
         private Path path;
 
+        /**
+         * 区域背景色，默认白色
+         */
         private int drawColor = Color.WHITE;
 
+        /**
+         * 区域省份名称
+         */
         private String provinceName;
 
+        /**
+         * 区域省份编码
+         */
         private int provinceCode;
 
+        /**
+         * 区域省份人数
+         */
         private int personNumber;
 
+        /**
+         * 区域绘制方法
+         *
+         * @param canvas     画布
+         * @param paint      画笔
+         * @param isSelected 是否选中
+         */
         void drawItem(Canvas canvas, Paint paint, boolean isSelected) {
+
+            //选中时绘制阴影描边效果
             if (isSelected) {
                 paint.setStrokeWidth(2);
                 paint.setColor(Color.BLACK);
@@ -331,6 +383,7 @@ public class ChinaMapView extends View {
                 canvas.drawPath(path, paint);
 
             } else {
+                //非选中时，绘制描边效果
                 paint.clearShadowLayer();
                 paint.setStrokeWidth(1);
                 paint.setStyle(Paint.Style.FILL);
@@ -344,6 +397,13 @@ public class ChinaMapView extends View {
             }
         }
 
+        /**
+         * 判断该区域是否处于touch状态
+         *
+         * @param x 当前x
+         * @param y 当前y
+         * @return 是否处于touch状态
+         */
         boolean isTouched(int x, int y) {
             RectF r = new RectF();
             path.computeBounds(r, true);

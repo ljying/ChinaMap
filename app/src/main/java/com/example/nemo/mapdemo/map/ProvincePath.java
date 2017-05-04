@@ -11,10 +11,19 @@ import android.graphics.Path;
 
 public class ProvincePath {
 
+    /**
+     * 省份绘制路径
+     */
     private Path path;
 
+    /**
+     * 省份编码
+     */
     private int code;
 
+    /**
+     * 省份名称
+     */
     private String name;
 
     public ProvincePath(int code, String name, String pathData) {

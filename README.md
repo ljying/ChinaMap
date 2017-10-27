@@ -18,5 +18,20 @@
         android:layout_height="wrap_content" />
 ```
 
-## 效果图
+
+
+## 着色方式自由选择，按照简单粗暴的是否着色
+```java
+mapView.setmColorStrategy(new BooleanColorStrategy());//数据参考//parseDemoData2
+```
+![效果图](./screenshot/effect2.png)
+## 按照权值，着颜色深重
+```java
+mapView.setmColorStrategy(new ValueColorStrategy());//数据参考//parseDemoData
+```
 ![效果图](./screenshot/effect.png)
+
+
+
+## 这个版本将库独立，去掉了lamada表达式，已达到更大兼容
+

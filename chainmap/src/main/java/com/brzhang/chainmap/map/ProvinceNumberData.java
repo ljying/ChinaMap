@@ -1,4 +1,4 @@
-package com.example.nemo.mapdemo.map;
+package com.brzhang.chainmap.map;
 
 /**
  * Description: 省份数据实体
@@ -7,7 +7,7 @@ package com.example.nemo.mapdemo.map;
  * @version 2.0
  * @since 2016/4/15
  */
-public class ProvinceData implements IProvinceData {
+public class ProvinceNumberData implements IProvinceData {
     /**
      * 省份Id
      */
@@ -31,6 +31,16 @@ public class ProvinceData implements IProvinceData {
     @Override
     public int getProvinceCode() {
         return provinceId;
+    }
+
+    @Override
+    public boolean isShouldColor() {
+        return false;
+    }
+
+    @Override
+    public int getColor() {
+        return 0;
     }
 
     public int getProvinceId() {
@@ -59,7 +69,7 @@ public class ProvinceData implements IProvinceData {
 
     @Override
     public String toString() {
-        return "ProvinceData{" +
+        return "ProvinceNumberData{" +
                 "provinceId=" + provinceId +
                 ", provinceName='" + provinceName + '\'' +
                 ", number=" + number +

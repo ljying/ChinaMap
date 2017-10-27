@@ -1,0 +1,19 @@
+{
+  "province": [
+    {
+      "provinceName": "北京",
+      "provinceId": 110000,
+      "showColor": true
+    },
+    {
+      "provinceName": "湖北",
+      "provinceId": 420000,
+      "showColor": true
+    },
+    {
+      "provinceName": "黑龙江",
+      "provinceId": 230000,
+      "showColor": true
+    }
+  ]
+}

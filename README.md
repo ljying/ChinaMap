@@ -24,7 +24,7 @@
 ```java
 mapView.setmColorStrategy(new BooleanColorStrategy());//数据参考//parseDemoData2
 ```
-![效果图](./screenshot/effect2.png)
+![效果图](./screenshot/effect_2.png)
 ## 按照权值，着颜色深重
 
 ```java

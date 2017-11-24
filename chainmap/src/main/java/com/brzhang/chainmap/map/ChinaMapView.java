@@ -1,7 +1,8 @@
-package com.example.nemo.mapdemo.map;
+package com.brzhang.chainmap.map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,15 +10,14 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.nemo.mapdemo.R;
+
+import com.brzhang.chainmap.R;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,13 +51,22 @@ public class ChinaMapView extends View {
 
     private ProvinceItem selectedItem;
 
-    private List<ProvinceItem> itemList;
 
-    private Collection<? extends IProvinceData> dataList;
+    /*原始省份路径*/
+    private List<ProvinceItem> provincePathInfoItems;
 
-    private Drawable drawable;
+    /*使用来着色的信息*/
+    private Collection mColoredDataList;
 
-    private int[] colorArray = new int[]{0xFF239BD7, 0xFF30A9E5, 0xFF80CBF1, 0xFFFFFFFF};
+
+    public void setmColorStrategy(IColorStrategy mColorStrategy) {
+        this.mColorStrategy = mColorStrategy;
+    }
+
+    private IColorStrategy mColorStrategy;
+
+    /*标尺信息*/
+    private Bitmap mBitmapRule;
 
     private GestureDetectorCompat gestureDetectorCompat;
 
@@ -115,32 +124,33 @@ public class ChinaMapView extends View {
 //                handlerTouch((int) x, (int) y);
 //            }
         });
-        drawable = getResources().getDrawable(R.drawable.scale_rule);
+        mBitmapRule = BitmapFactory.decodeResource(getResources(), R.drawable.scale_rule);
 
         bottomPadding = getResources().getDimensionPixelSize(R.dimen.map_bottom_padding);
 
         if (!isInEditMode()) {
             //获取地图svg封装信息
-            MapSVGManager.getInstance(getContext()).getProvincePathListAsync((provincePathList, size) -> {
+            MapSVGManager.getInstance(getContext()).getProvincePathListAsync(new MapSVGManager.Callback() {
+                @Override
+                public void onResult(List<ProvincePath> provincePathList, RectF size) {
+                    List<ProvinceItem> list = new ArrayList<>();
+                    for (ProvincePath provincePath : provincePathList) {
+                        ProvinceItem item = new ProvinceItem();
+                        item.setPath(provincePath.getPath());
+                        item.setProvinceCode(provincePath.getCode());
+                        item.setProvinceName(provincePath.getName());
+                        list.add(item);
+                    }
+                    if (mColoredDataList != null && mColorStrategy != null) {
+                        mColorStrategy.setMapColor(list, mColoredDataList);
+                    }
+                    mapSize = size;
+                    provincePathInfoItems = list;
 
-                List<ProvinceItem> list = new ArrayList<>();
-                for (ProvincePath provincePath : provincePathList) {
-                    ProvinceItem item = new ProvinceItem();
-                    item.setPath(provincePath.getPath());
-                    item.setProvinceCode(provincePath.getCode());
-                    item.setProvinceName(provincePath.getName());
-                    list.add(item);
+                    //刷新布局
+                    requestLayout();
+                    postInvalidate();
                 }
-
-                if (dataList != null) {
-                    setMapColor(list, dataList);
-                }
-                mapSize = size;
-                itemList = list;
-
-                //刷新布局
-                requestLayout();
-                postInvalidate();
             });
         }
     }
@@ -208,7 +218,7 @@ public class ChinaMapView extends View {
      */
     private boolean handlerTouch(int x, int y) {
         ProvinceItem provinceItem = null;
-        final List<ProvinceItem> list = itemList;
+        final List<ProvinceItem> list = provincePathInfoItems;
         if (list == null) {
             return false;
         }
@@ -231,62 +241,22 @@ public class ChinaMapView extends View {
      *
      * @param list 加载数据集合
      */
-    public <T extends IProvinceData> void setData(Collection<T> list) {
-        if (itemList != null) {
+    public <T> void setData(Collection<T> list) {
+        if (provincePathInfoItems != null) {
             //重新设置绘制区域信息
-            setMapColor(itemList, list);
+            if (mColorStrategy != null) {
+                mColorStrategy.setMapColor(provincePathInfoItems, list);
+            }
             postInvalidate();
         }
-        dataList = list;
+        mColoredDataList = list;
     }
-
-    /**
-     * 设置地图区域颜色，根据所占比例来绘制区域颜色深浅即初始化区域绘制信息
-     *
-     * @param itemList 省份区域集合
-     * @param dataList 实际解析数据集合
-     */
-    private void setMapColor(List<ProvinceItem> itemList, Collection<? extends IProvinceData> dataList) {
-        int totalNumber = 0;
-        Map<Integer, Integer> map = new HashMap<>();
-        if (dataList != null) {
-            for (IProvinceData data : dataList) {
-                totalNumber += data.getPersonNumber();
-                map.put(data.getProvinceCode(), data.getPersonNumber());
-            }
-        }
-
-        for (ProvinceItem item : itemList) {
-            int code = item.getProvinceCode();
-            int number = 0;
-            if (map.containsKey(code)) {
-                number = map.get(code);
-            }
-            item.setPersonNumber(number);
-
-            int color = Color.WHITE;
-            if (totalNumber > 0) {
-                double flag = (double) number / totalNumber;
-                if (flag > 0.2) {
-                    color = colorArray[0];
-                } else if (flag > 0.1) {
-                    color = colorArray[1];
-                } else if (flag > 0) {
-                    color = colorArray[2];
-                } else {
-                    color = Color.WHITE;
-                }
-            }
-            item.setDrawColor(color);
-        }
-    }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        final List<ProvinceItem> list = itemList;
+        final List<ProvinceItem> list = provincePathInfoItems;
         if (list != null) {
 
             int width = getWidth();
@@ -311,29 +281,24 @@ public class ChinaMapView extends View {
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.clearShadowLayer();
                 paint.setTextSize(provinceTextSize);
-                String provinceName = selectedItem.getProvinceName();
-                canvas.drawText(provinceName, width / 2, provinceMargin, paint);
 
-                int number = selectedItem.getPersonNumber();
-                canvas.drawText(number + "人", width / 2, provinceMargin + provinceTextSize + numberMargin, paint);
-
+                if (mColorStrategy instanceof ValueColorStrategy) {
+                     /*隐藏不绘制身份多少人*/
+//                    String provinceName = selectedItem.getProvinceName();
+//                    canvas.drawText(provinceName, width / 2, provinceMargin, paint);
+//                    int number = selectedItem.getPersonNumber();
+//                    canvas.drawText(number + "人", width / 2, provinceMargin + provinceTextSize + numberMargin, paint);
+                }
             }
-
-            if (drawable instanceof BitmapDrawable) {
-                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                int bitmapHeight = bitmap.getHeight();
-                int bitmapWidth = bitmap.getWidth();
-                drawable.setBounds(0, height - bitmapHeight, bitmapWidth, height);
-                drawable.draw(canvas);
-            }
-
+            /*隐藏标尺*/
+//            canvas.drawBitmap(mBitmapRule, 0, height - mBitmapRule.getHeight(), paint);
         }
     }
 
     /**
      * 地图绘制省份区域信息
      */
-    private static class ProvinceItem {
+    static class ProvinceItem {
         /**
          * 区域路径
          */

@@ -31,7 +31,7 @@
     </LinearLayout>
 
 
-    <com.example.nemo.mapdemo.map.ChinaMapView
+    <com.brzhang.chainmap.map.ChinaMapView
         android:id="@+id/view_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

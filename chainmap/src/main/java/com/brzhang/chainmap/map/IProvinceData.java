@@ -1,4 +1,4 @@
-package com.example.nemo.mapdemo.map;
+package com.brzhang.chainmap.map;
 
 /**
  * Description: 省份数据方法接口
@@ -22,4 +22,20 @@ interface IProvinceData {
      * @return 省份编码
      */
     int getProvinceCode();
+
+    /**
+     * 获取省份是否应该着色
+     *
+     * @return 省份编码
+     */
+    boolean isShouldColor();
+
+    /**
+     * 获取省份应该着色的颜色
+     *
+     * @return 人数
+     */
+    int getColor();
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.nemo.mapdemo.map;
+package com.brzhang.chainmap.map;
 
 import android.graphics.Path;
 import android.util.Log;

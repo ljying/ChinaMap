@@ -1,24 +1,17 @@
-apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.neenbedankt.android-apt'
-
+apply plugin: 'com.android.library'
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
+
     defaultConfig {
-        applicationId "com.example.nemo.mapdemo"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -32,12 +25,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':chainmap')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-
-    compile "io.reactivex:rxandroid:1.2.0"
-    compile "io.reactivex:rxjava: 1.1.5"
-    provided 'javax.annotation:jsr250-api:1.0'
-
+    compile 'com.android.support:appcompat-v7:25.0.1'
     testCompile 'junit:junit:4.12'
 }

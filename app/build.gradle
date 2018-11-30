@@ -13,8 +13,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            def prefix = "China_Map"
-            outputFileName = "${prefix}_${variant.productFlavors[1]}.apk"
+            outputFileName = "China_Map.apk"
         }
     }
 

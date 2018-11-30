@@ -1,4 +1,4 @@
-package com.example.nemo.mapdemo.map;
+package com.nemo.chinamap.map;
 
 import android.content.Context;
 import android.graphics.Path;
@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.nemo.mapdemo.R;
+import com.nemo.chinamap.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;

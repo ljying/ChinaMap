@@ -1,4 +1,4 @@
-package com.example.nemo.mapdemo.map;
+package com.nemo.chinamap.map;
 
 /**
  * Description: 省份数据方法接口

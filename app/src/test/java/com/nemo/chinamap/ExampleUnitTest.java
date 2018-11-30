@@ -1,4 +1,4 @@
-package com.example.nemo.mapdemo;
+package com.nemo.chinamap;
 
 import org.junit.Test;
 

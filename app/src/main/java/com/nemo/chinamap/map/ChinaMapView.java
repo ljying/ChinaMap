@@ -1,5 +1,6 @@
-package com.example.nemo.mapdemo.map;
+package com.nemo.chinamap.map;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,7 +18,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.nemo.mapdemo.R;
+import com.nemo.chinamap.R;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -248,6 +249,7 @@ public class ChinaMapView extends View {
      */
     private void setMapColor(List<ProvinceItem> itemList, Collection<? extends IProvinceData> dataList) {
         int totalNumber = 0;
+        @SuppressLint("UseSparseArrays")
         Map<Integer, Integer> map = new HashMap<>();
         if (dataList != null) {
             for (IProvinceData data : dataList) {

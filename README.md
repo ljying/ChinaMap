@@ -12,7 +12,7 @@
 
 ## 使用方式
 ```xml
-<com.example.nemo.mapdemo.map.ChinaMapView
+<com.nemo.mapdemo.map.ChinaMapView
         android:id="@+id/view_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

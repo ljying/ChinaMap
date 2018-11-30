@@ -1,4 +1,4 @@
-package com.example.nemo.mapdemo;
+package com.nemo.chinamap;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.nemo.mapdemo", appContext.getPackageName());
+        assertEquals("com.nemo.mapdemo", appContext.getPackageName());
     }
 }
